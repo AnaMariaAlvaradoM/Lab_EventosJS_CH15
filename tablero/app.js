@@ -29,6 +29,13 @@ const turnos = [
 // ============================================================
 
 // Tu código aquí
+const visorNumero = document.getElementById("visorNumero");
+const visorModulo = document.getElementById("visorModulo");
+const listaEspera = document.getElementById("listaEspera");
+const btnLlamar = document.getElementById("btnLlamar");
+const buscador = document.getElementById("buscador");
+const contadorFila = document.getElementById("contadorFila");
+const mensajeVacio = document.getElementById("mensajeVacio");
 
 // ============================================================
 // Ejercicio 02 · pintarFila(): del arreglo a la pantalla
