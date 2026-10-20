@@ -176,7 +176,27 @@ function actualizarContador() {
 // repinta. Conéctala a la LISTA (no a cada botón).
 // ============================================================
 
-// Tu código aquí
+
+function cancelarTurno(evento) {
+    if (!evento.target.classList.contains("turno__cancelar")) {
+        return;
+    }
+
+    const fila = evento.target.closest(".turno");
+    const codigo = fila.dataset.codigo;
+
+    for (let i = 0; i < turnos.length; i++) {
+        if (turnos[i].codigo === codigo) {
+            turnos.splice(i, 1);
+            break;
+        }
+    }
+
+    pintarFila();
+}
+
+listaEspera.addEventListener("click", cancelarTurno);
+
 
 // ============================================================
 // Ejercicio 08 · Búsqueda en vivo (evento input)
