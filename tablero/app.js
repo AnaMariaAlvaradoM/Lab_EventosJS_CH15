@@ -30,6 +30,14 @@ const turnos = [
 
 // Tu código aquí
 
+const visorNumero = document.getElementById("visorNumero")
+const visorModulo = document.getElementById("visorModulo")
+const listaEspera = document.getElementById("listaEspera")
+const btnLlamar = document.getElementById("btnLlamar")
+const buscador = document.getElementById("buscador")
+const contadorFila = document.getElementById("contadorFila")
+const mensajeVacio = document.getElementById("mensajeVacio")
+
 // ============================================================
 // Ejercicio 02 · pintarFila(): del arreglo a la pantalla
 // ============================================================
@@ -51,6 +59,122 @@ const turnos = [
 
 // Tu código aquí
 
+function pintarFila(){
+  listaEspera.innerHTML = "";
+
+  for (let i = 0; i < turnos.length; i++) {
+    const turno = turnos[i];
+
+    const li = document.createElement("li");
+    li.classList.add("turno");
+
+    li.dataset.codigo = turno.codigo;
+    li.dataset.modulo = turno.modulo;
+    li.dataset.nombre = turno.nombre;
+
+    let estadoTexto = "En espera";
+
+    if (turno.atendido) {
+      li.classList.add("turno--atendido");
+      estadoTexto = "Atendido";
+    }
+
+    const spanCodigo = document.createElement("span");
+    spanCodigo.classList.add("turno__codigo");
+    spanCodigo.textContent = turno.codigo;
+
+    const divDatos = document.createElement("div");
+    divDatos.classList.add("turno__datos");
+
+    const pNombre = document.createElement("p");
+    pNombre.classList.add("turno__nombre");
+    pNombre.textContent = turno.nombre;
+
+    const pTramite = document.createElement("p");
+    pTramite.classList.add("turno__tramite");
+    pTramite.textContent = `${turno.tramite} · ${turno.modulo}`;
+
+    divDatos.appendChild(pNombre);
+    divDatos.appendChild(pTramite);
+
+    const spanEstado = document.createElement("span");
+    spanEstado.classList.add("turno__estado");
+    spanEstado.textContent = estadoTexto;
+
+    li.appendChild(spanCodigo);
+    li.appendChild(divDatos);
+    li.appendChild(spanEstado);
+
+    const btnCancelar = document.createElement("button");
+    btnCancelar.classList.add("turno__cancelar");
+    btnCancelar.textContent = "Cancelar";
+    btnCancelar.dataset.accion = "cancelar";
+    li.appendChild(btnCancelar);
+
+    listaEspera.appendChild(li);
+  }
+
+  mensajeVacio.hidden = turnos.length > 0;
+
+  actualizarContador();
+  aplicarBusqueda();
+}
+
+function llamarSiguiente(){
+  const siguiente = turnos.find(t => !t.atendido);
+
+  if (siguiente){
+    siguiente.atendido = true;
+    visorNumero.textContent = siguiente.codigo;
+    visorModulo.textContent = `Pase al ${siguiente.modulo}`;
+  } else {
+    visorNumero.textContent = "— — —";
+    visorModulo.textContent = "No hay turnos en espera";
+  }
+  pintarFila();
+}
+
+btnLlamar.addEventListener("click", llamarSiguiente);
+
+function actualizarContador(){
+  const pendientes = listaEspera.querySelectorAll(".turno:not(.turno--atendido)");
+  contadorFila.textContent = pendientes.length;
+}
+
+function cancelarTurno(evento){
+  if (!evento.target.matches(".turno__cancelar")) return;
+
+  const li = evento.target.closest(".turno");
+  const codigo = li.dataset.codigo;
+
+  const index = turnos.findIndex(t => t.codigo === codigo);
+  if (index !== -1) {
+     turnos.splice(index, 1);
+     pintarFila();
+  }
+}
+
+listaEspera.addEventListener("click", cancelarTurno);
+
+function aplicarBusqueda() {
+  const textoBusqueda = buscador.value.trim().toLowerCase();
+  const items = listaEspera.querySelectorAll(".turno");
+
+  items.forEach(li => {
+    const codigo = li.dataset.codigo.toLowerCase();
+    const nombre = li.dataset.nombre.toLowerCase();
+
+    if (codigo.includes(textoBusqueda) || nombre.includes(textoBusqueda)) {
+      li.classList.remove("turno--oculto");
+    } else {
+      li.classList.add("turno--oculto");
+    }
+  });
+}
+
+buscador.addEventListener("input", aplicarBusqueda);
+
+pintarFila();
 // ============================================================
 // Ejercicio 03 · Llamar al siguiente (evento click)
 // ============================================================
