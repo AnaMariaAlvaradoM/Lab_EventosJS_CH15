@@ -81,19 +81,6 @@ En `app.js` también hay un resumen corto de cada ejercicio, justo donde va su c
 
 ---
 
-## ⏰ Fecha límite
-
-### Cuándo cierra
-
-La profe te indica el día y la hora de cierre.
-
-### Qué pasa después
-
-Después de esa hora puedes seguir haciendo `git push`, pero **tu nota ya no cambia**.
-Si abres tu Pull Request por primera vez después del cierre, queda con la etiqueta **⏰ Fuera de plazo**.
-
----
-
 ## 🚀 Paso 1 · Crea tu copia del repo (Fork)
 
 ### ¿Qué es un Fork?
@@ -561,11 +548,6 @@ Espera 1 o 2 minutos después de cada `git push` y entra a tu Pull Request:
 ### ¿Quieres subir la nota?
 
 Corrige en VS Code, revisa con `npm test` y haz de nuevo el **Paso 5**.
-
-### Ojo con la fecha límite
-
-Después del cierre, los `git push` ya no cambian tu nota.
-Si tu primera entrega llega tarde, el PR queda con **⏰ Fuera de plazo**.
 
 ---
 
