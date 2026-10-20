@@ -1,0 +1,12 @@
+{
+  "name": "lab-eventos-ch15",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lab de eventos calificable · Tablero de turnos · Generation Colombia Cohorte 15",
+  "scripts": {
+    "test": "node scripts/calificar.js"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  }
+}

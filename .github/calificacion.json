@@ -1,0 +1,17 @@
+{
+  "curso": "🏥 Tablero de turnos · Eventos en JavaScript",
+  "fechaLimite": "",
+  "patronTest": "^test\\(",
+  "entregables": ["tablero/"],
+  "protegidos": ["tests/", "scripts/", ".github/", "package.json", "package-lock.json"],
+  "ejercicios": [
+    { "id": "01", "titulo": "Los huecos del HTML", "test": "tests/01-huecos.test.js" },
+    { "id": "02", "titulo": "Pintar la fila", "test": "tests/02-pintar-fila.test.js" },
+    { "id": "03", "titulo": "Llamar (click)", "test": "tests/03-llamar.test.js" },
+    { "id": "04", "titulo": "Estados con classList", "test": "tests/04-estados.test.js" },
+    { "id": "05", "titulo": "El contador", "test": "tests/05-contador.test.js" },
+    { "id": "06", "titulo": "dataset y Cancelar", "test": "tests/06-dataset.test.js" },
+    { "id": "07", "titulo": "Delegación", "test": "tests/07-delegacion.test.js" },
+    { "id": "08", "titulo": "Búsqueda (input)", "test": "tests/08-busqueda.test.js" }
+  ]
+}
