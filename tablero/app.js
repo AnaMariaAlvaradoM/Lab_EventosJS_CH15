@@ -28,7 +28,13 @@ const turnos = [
 //   buscador · contadorFila · mensajeVacio
 // ============================================================
 
-// Tu código aquí
+const visorNumero = document.getElementById("visorNumero");
+const visorModulo = document.getElementById("visorModulo");
+const listaEspera = document.getElementById("listaEspera");
+const btnLlamar = document.getElementById("btnLlamar");
+const buscador = document.getElementById("buscador");
+const contadorFila = document.getElementById("contadorFila");
+const mensajeVacio = document.getElementById("mensajeVacio");
 
 // ============================================================
 // Ejercicio 02 · pintarFila(): del arreglo a la pantalla
@@ -49,7 +55,47 @@ const turnos = [
 //   mensajeVacio.hidden = turnos.length > 0;
 // ============================================================
 
-// Tu código aquí
+function pintarFila(){
+  listaEspera.innerHTML = "";
+
+  for(let i = 0; i < turnos.length; i++){
+    const turno = turnos[i];
+
+    const elementoTurno = document.createElement("li");
+    elementoTurno.className = "turno";
+
+    const elementoCodigo = document.createElement("span");
+    elementoCodigo.className = "turno__codigo";
+    elementoCodigo.textContent = turno.codigo;
+
+    const elementoDatos = document.createElement("div");
+    elementoDatos.className = "turno__datos";
+    
+    const elementoNombre = document.createElement("p");
+    elementoNombre.className = "turno__nombre";
+    elementoNombre.textContent = turno.nombre;
+
+    const elementoTramite = document.createElement("p");
+    elementoTramite.className = "turno__tramite";
+    elementoTramite.textContent = `${turno.tramite} · ${turno.modulo}`;
+
+    const elementoEstado = document.createElement("span");
+    elementoEstado.className = "turno__estado";
+    elementoEstado.textContent = "En espera";
+
+    elementoDatos.appendChild(elementoNombre);
+    elementoDatos.appendChild(elementoTramite);
+
+    elementoTurno.appendChild(elementoCodigo);
+    elementoTurno.appendChild(elementoDatos);
+    elementoTurno.appendChild(elementoEstado)
+
+    listaEspera.appendChild(elementoTurno);
+  }
+
+  mensajeVacio.hidden = turnos.length > 0;
+
+}
 
 // ============================================================
 // Ejercicio 03 · Llamar al siguiente (evento click)
@@ -123,4 +169,4 @@ const turnos = [
 // Arranque: pinta la fila apenas abre la página
 // ============================================================
 
-// Cuando termines el Ejercicio 02, escribe aquí abajo: pintarFila();
+pintarFila();
