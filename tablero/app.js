@@ -56,22 +56,38 @@ const mensajeVacio = document.getElementById("mensajeVacio");
 // ============================================================
 
 function pintarFila() {
-  
+
   listaEspera.innerHTML = "";
-  
+
   for (let turno of turnos) {
+
+    // ============================================================
+    // Ejercicio 04 · Estados con classList
+    // ============================================================
+    // Dentro de pintarFila: si el turno ya fue atendido, agrégale al
+    // <li> la clase turno--atendido y haz que su estado diga
+    // "Atendido" en vez de "En espera".
+    // ============================================================
+
+    const claseAtendido = turno.atendido ? "turno--atendido" : "";
+    const estado = turno.atendido ? "Atendido" : "En espera";
+
+    // ============================================================
+    // Fin ejer. 04
+    // ============================================================
+
     listaEspera.innerHTML += `
-        <li class="turno">
+        <li class="turno ${claseAtendido}">
           <span class="turno__codigo">${turno.codigo}</span>
           <div class="turno__datos">
           <p class="turno__nombre">${turno.nombre}</p>
           <p class="turno__tramite">${turno.tramite} · ${turno.modulo}</p>
           </div>
-          <span class="turno__estado">En espera</span>
+          <span class="turno__estado">${estado}</span>
         </li>
       `;
   }
-  
+
   mensajeVacio.hidden = turnos.length > 0;
 
 }
@@ -90,16 +106,16 @@ function pintarFila() {
 function llamarSiguiente() {
   let siguiente = null;
 
-  for(let turno of turnos) {
+  for (let turno of turnos) {
     if (!turno.atendido) {
       siguiente = turno;
       break;
     }
   }
 
-  if(!siguiente) {
+  if (!siguiente) {
 
-    visorNumero.textContent = "— — —"; 
+    visorNumero.textContent = "— — —";
     visorModulo.textContent = "No hay turnos en espera"
 
   } else {
@@ -116,15 +132,7 @@ function llamarSiguiente() {
 
 btnLlamar.addEventListener("click", llamarSiguiente);
 
-// ============================================================
-// Ejercicio 04 · Estados con classList
-// ============================================================
-// Dentro de pintarFila: si el turno ya fue atendido, agrégale al
-// <li> la clase turno--atendido y haz que su estado diga
-// "Atendido" en vez de "En espera".
-// ============================================================
 
-// (Este ejercicio se resuelve dentro de pintarFila, arriba)
 
 // ============================================================
 // Ejercicio 05 · El contador
