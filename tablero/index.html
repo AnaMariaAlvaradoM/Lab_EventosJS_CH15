@@ -50,10 +50,10 @@ El <script> de app.js va al final del <body>: no lo muevas.
       <p class="visor__rotulo">Turno en atención</p>
 
       <!-- HUECO 1: este párrafo necesita un id -->
-      <p class="visor__numero">— — —</p>
+      <p class="visor__numero" id="visorNumero">— — —</p>
 
       <!-- HUECO 2: este párrafo necesita un id -->
-      <p class="visor__modulo">Esperando llamado</p>
+      <p class="visor__modulo" id="visorModulo">Esperando llamado</p>
     </section>
 
     <!-- ============================================================
@@ -73,13 +73,14 @@ El <script> de app.js va al final del <body>: no lo muevas.
         <input
           class="panel__input"
           type="text"
-          placeholder="Código de turno o nombre">
+          placeholder="Código de turno o nombre"
+          id="buscador">
       </div>
 
       <div class="panel__conteo">
         <p class="conteo">
           <!-- HUECO 4: este span necesita un id -->
-          <span class="conteo__cifra">0</span>
+          <span class="conteo__cifra" id="contadorFila">0</span>
           <span class="conteo__texto">en espera</span>
         </p>
       </div>
@@ -97,7 +98,7 @@ El <script> de app.js va al final del <body>: no lo muevas.
       </div>
 
       <!-- HUECO 5: esta lista necesita un id -->
-      <ul class="fila__lista"></ul>
+      <ul class="fila__lista" id="listaEspera"></ul>
 
       <p class="fila__vacia" id="mensajeVacio">No hay turnos cargados.</p>
     </section>
