@@ -42,24 +42,14 @@ El <script> de app.js va al final del <body>: no lo muevas.
 
   <main class="tablero">
 
-    <!-- ============================================================
-         VISOR PRINCIPAL
-         El número grande que se ve desde el fondo de la sala.
-         ============================================================ -->
     <section class="visor" aria-live="polite">
       <p class="visor__rotulo">Turno en atención</p>
 
-      <!-- HUECO 1: este párrafo necesita un id -->
-      <p class="visor__numero">— — —</p>
+      <p class="visor__numero" id="visorNumero">— — —</p>
 
-      <!-- HUECO 2: este párrafo necesita un id -->
-      <p class="visor__modulo">Esperando llamado</p>
+      <p class="visor__modulo" id="visorModulo">Esperando llamado</p>
     </section>
 
-    <!-- ============================================================
-         PANEL DE CONTROL
-         Lo que usa la persona del módulo, no el usuario de la sala.
-         ============================================================ -->
     <section class="panel">
       <h2 class="panel__titulo">Panel del módulo</h2>
 
@@ -69,35 +59,29 @@ El <script> de app.js va al final del <body>: no lo muevas.
 
       <div class="panel__campo">
         <label class="panel__etiqueta" for="buscador">Buscar en la fila</label>
-        <!-- HUECO 3: este input necesita un id -->
         <input
           class="panel__input"
+          id="buscador"
           type="text"
           placeholder="Código de turno o nombre">
       </div>
 
       <div class="panel__conteo">
         <p class="conteo">
-          <!-- HUECO 4: este span necesita un id -->
-          <span class="conteo__cifra">0</span>
+
+          <span class="conteo__cifra" id="contadorFila">0</span>
           <span class="conteo__texto">en espera</span>
         </p>
       </div>
     </section>
 
-    <!-- ============================================================
-         FILA DE ESPERA
-         Aquí se pintan los turnos desde JavaScript.
-         Este <ul> arranca vacío a propósito.
-         ============================================================ -->
     <section class="fila">
       <div class="fila__encabezado">
         <h2 class="fila__titulo">Fila de espera</h2>
         <p class="fila__nota">Orden de llegada</p>
       </div>
 
-      <!-- HUECO 5: esta lista necesita un id -->
-      <ul class="fila__lista"></ul>
+      <ul class="fila__lista" id="listaEspera"></ul>
 
       <p class="fila__vacia" id="mensajeVacio">No hay turnos cargados.</p>
     </section>
