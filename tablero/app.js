@@ -28,7 +28,13 @@ const turnos = [
 //   buscador · contadorFila · mensajeVacio
 // ============================================================
 
-// Tu código aquí
+  const visorNumero = document.getElementById("visorNumero");
+  const visorModulo = document.getElementById("visorModulo");
+  const buscador = document.getElementById("buscador");
+  const listaEspera = document.getElementById("listaEspera");
+  const contadorFila = document.getElementById("contadorFila");
+  const btnLlamar = document.getElementById("btnLlamar");
+   const mensajeVacio = document.getElementById("mensajeVacio");
 
 // ============================================================
 // Ejercicio 02 · pintarFila(): del arreglo a la pantalla
@@ -49,7 +55,31 @@ const turnos = [
 //   mensajeVacio.hidden = turnos.length > 0;
 // ============================================================
 
-// Tu código aquí
+  function pintarFila() {
+    listaEspera.innerHTML ="";
+
+
+    for (let turno of turnos) {
+    
+
+      listaEspera.innerHTML +=
+
+       `<li class="turno">
+        <span class="turno__codigo">${turno.codigo}</span>
+          <div class="turno__datos">
+              <p class="turno__nombre">${turno.nombre}</p>
+                <p class="turno__tramite">${turno.tramite} · Modulo 1</p>
+        </div>
+
+      <span class="turno__estado">${turno.estado}</span>
+       </li> 
+       `;
+
+    }
+    mensajeVacio.hidden = turnos.length > 0
+
+  }
+ 
 
 // ============================================================
 // Ejercicio 03 · Llamar al siguiente (evento click)
@@ -62,8 +92,25 @@ const turnos = [
 // Conéctala al botón con addEventListener("click", ...).
 // ============================================================
 
-// Tu código aquí
-
+  function llamarSiguiente() {
+    let siguiente = null;
+    for (let i = 0; i < turnos.length; i++) {
+        if (turnos[i].atendido === false) {
+            siguiente = turnos[i];
+            break;
+        }
+    }
+    if (siguiente !== null) {
+        siguiente.atendido = true;
+        visorNumero.textContent = siguiente.codigo;
+        visorModulo.textContent = "Pase al " + siguiente.modulo;
+    } else {
+        visorNumero.textContent = "— — —";
+        visorModulo.textContent = "No hay turnos en espera";
+    }
+    pintarFila();
+}
+btnLlamar.addEventListener("click", llamarSiguiente);
 // ============================================================
 // Ejercicio 04 · Estados con classList
 // ============================================================
@@ -82,7 +129,10 @@ const turnos = [
 // contador. Llámala al final de pintarFila.
 // ============================================================
 
-// Tu código aquí
+    function actualizarContador() {
+        const pendientes = document.querySelectorAll("li.turno:not(.turno--atendido)");
+           contadorFila.textContent = pendientes.length;
+  }
 
 // ============================================================
 // Ejercicio 06 · Datos escondidos con dataset y el botón Cancelar
@@ -105,7 +155,25 @@ const turnos = [
 // repinta. Conéctala a la LISTA (no a cada botón).
 // ============================================================
 
-// Tu código aquí
+  function cancelarTurno(evento) {
+    if (!evento.target.classList.contains("turno__cancelar")) {
+        return;
+    }
+
+    const fila = evento.target.closest(".turno");
+    const codigo = fila.dataset.codigo;
+
+    for (let i = 0; i < turnos.length; i++) {
+        if (turnos[i].codigo === codigo) {
+            turnos.splice(i, 1);
+            break;
+        }
+    }
+
+    pintarFila();
+}
+
+listaEspera.addEventListener("click", cancelarTurno);
 
 // ============================================================
 // Ejercicio 08 · Búsqueda en vivo (evento input)
@@ -117,10 +185,11 @@ const turnos = [
 // al final de pintarFila.
 // ============================================================
 
-// Tu código aquí
+  
 
 // ============================================================
 // Arranque: pinta la fila apenas abre la página
 // ============================================================
 
 // Cuando termines el Ejercicio 02, escribe aquí abajo: pintarFila();
+ pintarFila();
