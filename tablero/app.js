@@ -28,7 +28,13 @@ const turnos = [
 //   buscador · contadorFila · mensajeVacio
 // ============================================================
 
-// Tu código aquí
+const visorNumero = document.getElementById("visorNumero");
+const visorModulo = document.getElementById("visorModulo");
+const listaEspera = document.getElementById("listaEspera");
+const btnLlamar = document.getElementById("btnLlamar");
+const buscador = document.getElementById("buscador");
+const contadorFila = document.getElementById("contadorFila");
+const mensajeVacio = document.getElementById("mensajeVacio");
 
 // ============================================================
 // Ejercicio 02 · pintarFila(): del arreglo a la pantalla
@@ -49,7 +55,27 @@ const turnos = [
 //   mensajeVacio.hidden = turnos.length > 0;
 // ============================================================
 
-// Tu código aquí
+function pintarFila() {
+  listaEspera.innerHTML = "";
+
+  for (let i = 0; i < turnos.length; i++) {
+    listaEspera.innerHTML += `
+      <li class="turno">
+        <span class="turno__codigo">${turnos[i].codigo}</span>
+        <div class="turno__datos">
+          <p class="turno__nombre">${turnos[i].nombre}</p>
+          <p class="turno__tramite">${turnos[i].tramite} · ${turnos[i].modulo}</p>
+        </div>
+        <span class="turno__estado">${turnos[i].estado || "En espera"}</span>
+      </li>
+    `;
+  }
+
+  mensajeVacio.hidden = turnos.length > 0;
+}
+
+pintarFila();
+
 
 // ============================================================
 // Ejercicio 03 · Llamar al siguiente (evento click)
@@ -62,7 +88,31 @@ const turnos = [
 // Conéctala al botón con addEventListener("click", ...).
 // ============================================================
 
-// Tu código aquí
+function llamarSiguiente(){
+  let primerT = false
+
+  for (let i = 0; i < turnos.length; i++){
+    if (turnos[i].atendido === false) {
+      turnos[i].atendido = true;
+
+      visorNumero.textContent = turnos[i].codigo;
+      visorModulo.textContent = "Pase al " + turnos[i].modulo;
+
+      primerT = true;
+      break;
+    }
+  }
+
+
+  if (primerT === false) {
+    visorNumero.textContent = "— — —";
+    visorModulo.textContent = "No hay turnos en espera";
+  }
+
+  pintarFila();
+}
+
+btnLlamar.addEventListener("click", llamarSiguiente);
 
 // ============================================================
 // Ejercicio 04 · Estados con classList
