@@ -11,12 +11,12 @@
 
 // ===== Los datos: la fila de la sede (ya vienen listos, no los borres) =====
 const turnos = [
-  { codigo: "A-014", nombre: "Luisa Cárdenas",  tramite: "Autorización de examen", modulo: "Módulo 1", atendido: false },
-  { codigo: "A-015", nombre: "Óscar Betancur",  tramite: "Cambio de EPS",          modulo: "Módulo 2", atendido: false },
-  { codigo: "B-003", nombre: "Yeimi Moreno",    tramite: "Certificado laboral",    modulo: "Módulo 3", atendido: false },
+  { codigo: "A-014", nombre: "Luisa Cárdenas", tramite: "Autorización de examen", modulo: "Módulo 1", atendido: false },
+  { codigo: "A-015", nombre: "Óscar Betancur", tramite: "Cambio de EPS", modulo: "Módulo 2", atendido: false },
+  { codigo: "B-003", nombre: "Yeimi Moreno", tramite: "Certificado laboral", modulo: "Módulo 3", atendido: false },
   { codigo: "A-016", nombre: "Camilo Restrepo", tramite: "Autorización de examen", modulo: "Módulo 1", atendido: false },
-  { codigo: "B-004", nombre: "Sandra Ruiz",     tramite: "Afiliación de hijo",     modulo: "Módulo 4", atendido: false },
-  { codigo: "A-017", nombre: "Jhon Quintero",   tramite: "Incapacidad",            modulo: "Módulo 2", atendido: false }
+  { codigo: "B-004", nombre: "Sandra Ruiz", tramite: "Afiliación de hijo", modulo: "Módulo 4", atendido: false },
+  { codigo: "A-017", nombre: "Jhon Quintero", tramite: "Incapacidad", modulo: "Módulo 2", atendido: false }
 ];
 
 // ============================================================
@@ -28,7 +28,13 @@ const turnos = [
 //   buscador · contadorFila · mensajeVacio
 // ============================================================
 
-// Tu código aquí
+const visorNumero = document.getElementById("visorNumero");
+const visorModulo = document.getElementById("visorModulo");
+const listaEspera = document.getElementById("listaEspera");
+const btnLlamar = document.getElementById("btnLlamar");
+const buscador = document.getElementById("buscador");
+const contadorFila = document.getElementById("contadorFila");
+const mensajeVacio = document.getElementById("mensajeVacio");
 
 // ============================================================
 // Ejercicio 02 · pintarFila(): del arreglo a la pantalla
@@ -48,8 +54,65 @@ const turnos = [
 // Al final (después del for), oculta el mensaje de fila vacía:
 //   mensajeVacio.hidden = turnos.length > 0;
 // ============================================================
+function pintarFila() {
+  listaEspera.innerHTML = "";
 
-// Tu código aquí
+  for (let i = 0; i < turnos.length; i++) {
+    const turno = turnos[i];
+
+    const item = document.createElement("li");
+    item.className = "turno";
+
+    if (turno.atendido) {
+      item.classList.add("turno--atendido");
+    }
+
+    item.dataset.codigo = turno.codigo;
+    item.dataset.modulo = turno.modulo;
+    item.dataset.nombre = turno.nombre;
+
+    const spanCodigo = document.createElement("span");
+    spanCodigo.className = "turno__codigo";
+    spanCodigo.textContent = turno.codigo;
+    item.appendChild(spanCodigo);
+
+    const divDatos = document.createElement("div");
+    divDatos.className = "turno__datos";
+
+    const pNombre = document.createElement("p");
+    pNombre.className = "turno__nombre";
+    pNombre.textContent = turno.nombre;
+    divDatos.appendChild(pNombre);
+
+    const pTramite = document.createElement("p");
+    pTramite.className = "turno__tramite";
+    pTramite.textContent = `${turno.tramite} · ${turno.modulo}`;
+    divDatos.appendChild(pTramite);
+
+    item.appendChild(divDatos);
+
+    const spanEstado = document.createElement("span");
+    spanEstado.className = "turno__estado";
+    spanEstado.textContent = turno.atendido ? "Atendido" : "En espera";
+    item.appendChild(spanEstado);
+
+    const btnCancelar = document.createElement("button");
+    btnCancelar.className = "turno__cancelar";
+    btnCancelar.textContent = "Cancelar";
+    btnCancelar.dataset.accion = "cancelar";
+    item.appendChild(btnCancelar);
+
+
+
+    listaEspera.appendChild(item);
+  }
+
+  mensajeVacio.hidden = turnos.length > 0;
+
+  actualizarContador();
+  aplicarBusqueda();
+}
+
 
 // ============================================================
 // Ejercicio 03 · Llamar al siguiente (evento click)
@@ -62,7 +125,30 @@ const turnos = [
 // Conéctala al botón con addEventListener("click", ...).
 // ============================================================
 
-// Tu código aquí
+function llamarSiguiente() {
+  let turnoEncontrado = null;
+
+  for (let i = 0; i < turnos.length; i++) {
+    if (!turnos[i].atendido) {
+      turnoEncontrado = turnos[i];
+      break;
+    }
+  }
+
+  if (!turnoEncontrado) {
+    visorNumero.textContent = "— — —";
+    visorModulo.textContent = "No hay turnos en espera";
+    return;
+  }
+
+  turnoEncontrado.atendido = true;
+  visorNumero.textContent = turnoEncontrado.codigo;
+  visorModulo.textContent = "Pase al " + turnoEncontrado.modulo;
+
+  pintarFila();
+}
+
+btnLlamar.addEventListener("click", llamarSiguiente);
 
 // ============================================================
 // Ejercicio 04 · Estados con classList
@@ -82,7 +168,10 @@ const turnos = [
 // contador. Llámala al final de pintarFila.
 // ============================================================
 
-// Tu código aquí
+function actualizarContador() {
+  const pendientes = listaEspera.querySelectorAll(".turno:not(.turno--atendido)");
+  contadorFila.textContent = pendientes.length;
+}
 
 // ============================================================
 // Ejercicio 06 · Datos escondidos con dataset y el botón Cancelar
@@ -105,7 +194,22 @@ const turnos = [
 // repinta. Conéctala a la LISTA (no a cada botón).
 // ============================================================
 
-// Tu código aquí
+function cancelarTurno(evento) {
+  if (evento.target.dataset.accion !== "cancelar") {
+    return;
+  }
+  const item = evento.target.closest(".turno");
+  if (!item) return;
+  const codigoBuscado = item.dataset.codigo;
+  for (let i = 0; i < turnos.length; i++) {
+    if (turnos[i].codigo === codigoBuscado) {
+      turnos.splice(i, 1);
+      break;
+    }
+  }
+  pintarFila();
+}
+listaEspera.addEventListener("click", cancelarTurno);
 
 // ============================================================
 // Ejercicio 08 · Búsqueda en vivo (evento input)
@@ -117,10 +221,29 @@ const turnos = [
 // al final de pintarFila.
 // ============================================================
 
-// Tu código aquí
+// ============================================================
+// Ejercicio 08 · Búsqueda en vivo (evento input)
+// ============================================================
+function aplicarBusqueda() {
+  const textoBuscado = buscador.value.toLowerCase();
+  const items = listaEspera.querySelectorAll(".turno");
+
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    const contenido = (item.dataset.codigo + " " + item.dataset.nombre).toLowerCase();
+
+    if (contenido.includes(textoBuscado)) {
+      item.classList.remove("turno--oculto");
+    } else {
+      item.classList.add("turno--oculto");
+    }
+  }
+}
+buscador.addEventListener("input", aplicarBusqueda);
 
 // ============================================================
 // Arranque: pinta la fila apenas abre la página
 // ============================================================
 
 // Cuando termines el Ejercicio 02, escribe aquí abajo: pintarFila();
+pintarFila();
