@@ -88,8 +88,33 @@ function pintarFila() {
 // ============================================================
 
 function llamarSiguiente() {
-  // Tu código aquí
+  let siguiente = null;
+
+  for(let turno of turnos) {
+    if (!turno.atendido) {
+      siguiente = turno;
+      break;
+    }
+  }
+
+  if(!siguiente) {
+
+    visorNumero.textContent = "— — —"; 
+    visorModulo.textContent = "No hay turnos en espera"
+
+  } else {
+
+    siguiente.atendido = true;
+    visorNumero.textContent = siguiente.codigo;
+    visorModulo.textContent = `Pase al ${siguiente.modulo}`;
+
+  }
+
+  pintarFila();
+
 }
+
+btnLlamar.addEventListener("click", llamarSiguiente);
 
 // ============================================================
 // Ejercicio 04 · Estados con classList
