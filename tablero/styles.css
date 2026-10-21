@@ -450,7 +450,7 @@ body {
 }
 
 .turno--oculto {
-  display: none;
+  display: none !important;
 }
 
 /* ---------- Pie de página ---------- */
