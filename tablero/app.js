@@ -55,31 +55,52 @@ const turnos = [
 //   mensajeVacio.hidden = turnos.length > 0;
 // ============================================================
 
-  function pintarFila() {
-    listaEspera.innerHTML ="";
-
-
-    for (let turno of turnos) {
-    
-
-      listaEspera.innerHTML +=
-
-       `<li class="turno">
-        <span class="turno__codigo">${turno.codigo}</span>
-          <div class="turno__datos">
-              <p class="turno__nombre">${turno.nombre}</p>
-                <p class="turno__tramite">${turno.tramite} · Modulo 1</p>
-        </div>
-
-      <span class="turno__estado">${turno.estado}</span>
-       </li> 
-       `;
+     function pintarFila() {
+    listaEspera.innerHTML = "";
+    for (let i = 0; i < turnos.length; i++) {
+      const turno = turnos[i];
+    const fila = document.createElement("li")
+    fila.className = "turno"
+    fila.dataset.codigo = turno.codigo;
+    fila.dataset.modulo = turno.modulo;
+    fila.dataset.nombre = turno.nombre;
+    if(turno.atendido === true){
+          fila.classList.add("turno--atendido");
+    }
+    const codigo = document.createElement("span")
+    codigo.className = "turno__codigo"
+    codigo.textContent = turno.codigo
+    fila.appendChild(codigo)
+    const turnoDatos = document.createElement("div")
+    turnoDatos.className = "turno__datos"
+    const nombre = document.createElement("p")
+    nombre.className = "turno__nombre"
+    nombre.textContent = turno.nombre
+    turnoDatos.appendChild(nombre)
+    const turnoTramite = document.createElement("p")
+    turnoTramite.className = "turno__tramite"
+turnoTramite.textContent = turno.tramite + " · " + turno.modulo;    turnoDatos.appendChild(turnoTramite)
+    fila.appendChild(turnoDatos)
+    const estado = document.createElement("span")
+    estado.className = "turno__estado"
+    if (turno.atendido === true) {
+    estado.textContent = "Atendido";
+} else {
+    estado.textContent = "En espera";
+}   
+    const btnCancelar = document.createElement("button");
+    btnCancelar.className = "turno__cancelar";
+    btnCancelar.textContent = "Cancelar";
+    btnCancelar.dataset.accion = "cancelar";
+    fila.appendChild(btnCancelar);
+    fila.appendChild(estado)
+    listaEspera.appendChild(fila)
 
     }
-    mensajeVacio.hidden = turnos.length > 0
-
-  }
- 
+    mensajeVacio.hidden = turnos.length > 0;
+    actualizarContador();
+}
+  
 
 // ============================================================
 // Ejercicio 03 · Llamar al siguiente (evento click)
@@ -95,13 +116,14 @@ const turnos = [
   function llamarSiguiente() {
     let siguiente = null;
     for (let i = 0; i < turnos.length; i++) {
-        if (turnos[i].atendido === false) {
+        if (turnos[i].atendido === false || turnos[i].estado === "En espera") {
             siguiente = turnos[i];
             break;
         }
     }
     if (siguiente !== null) {
         siguiente.atendido = true;
+        siguiente.estado = "Atendido";
         visorNumero.textContent = siguiente.codigo;
         visorModulo.textContent = "Pase al " + siguiente.modulo;
     } else {
@@ -185,7 +207,7 @@ listaEspera.addEventListener("click", cancelarTurno);
 // al final de pintarFila.
 // ============================================================
 
-  
+
 
 // ============================================================
 // Arranque: pinta la fila apenas abre la página
