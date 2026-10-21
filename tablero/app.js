@@ -102,7 +102,7 @@ function pintarFila() {
   }
 
   mensajeVacio.hidden = turnos.length > 0;
-
+  actualizarContador()
 }
 
 pintarFila()
@@ -127,7 +127,7 @@ function llamarSiguiente() {
     }
   }
   if (gTurno == null) {
-    visorNumero.textContent = "- - -"
+    visorNumero.textContent = "— — —"
     visorModulo.textContent = "No hay turnos en espera"
     return
   } else {
@@ -158,7 +158,10 @@ btnLlamar.addEventListener("click", llamarSiguiente)
 // contador. Llámala al final de pintarFila.
 // ============================================================
 
-// Tu código aquí
+function actualizarContador() {
+  const select = document.querySelectorAll(".turno:not(.turno--atendido)")
+  contadorFila.textContent = select.length
+}
 
 // ============================================================
 // Ejercicio 06 · Datos escondidos con dataset y el botón Cancelar
