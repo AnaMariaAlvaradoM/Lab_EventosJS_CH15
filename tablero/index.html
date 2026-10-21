@@ -42,18 +42,14 @@ El <script> de app.js va al final del <body>: no lo muevas.
 
   <main class="tablero">
 
-    <!-- VISOR PRINCIPAL -->
     <section class="visor" aria-live="polite">
       <p class="visor__rotulo">Turno en atención</p>
 
-      <!-- HUECO 1 -->
       <p class="visor__numero" id="visorNumero">— — —</p>
 
-      <!-- HUECO 2 -->
       <p class="visor__modulo" id="visorModulo">Esperando llamado</p>
     </section>
 
-    <!-- PANEL DE CONTROL -->
     <section class="panel">
       <h2 class="panel__titulo">Panel del módulo</h2>
 
@@ -63,7 +59,6 @@ El <script> de app.js va al final del <body>: no lo muevas.
 
       <div class="panel__campo">
         <label class="panel__etiqueta" for="buscador">Buscar en la fila</label>
-        <!-- HUECO 3 -->
         <input
           class="panel__input"
           id="buscador"
@@ -73,21 +68,19 @@ El <script> de app.js va al final del <body>: no lo muevas.
 
       <div class="panel__conteo">
         <p class="conteo">
-          <!-- HUECO 4 -->
+
           <span class="conteo__cifra" id="contadorFila">0</span>
           <span class="conteo__texto">en espera</span>
         </p>
       </div>
     </section>
 
-    <!-- FILA DE ESPERA -->
     <section class="fila">
       <div class="fila__encabezado">
         <h2 class="fila__titulo">Fila de espera</h2>
         <p class="fila__nota">Orden de llegada</p>
       </div>
 
-      <!-- HUECO 5 -->
       <ul class="fila__lista" id="listaEspera"></ul>
 
       <p class="fila__vacia" id="mensajeVacio">No hay turnos cargados.</p>
