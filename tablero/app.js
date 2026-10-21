@@ -11,12 +11,12 @@
 
 // ===== Los datos: la fila de la sede (ya vienen listos, no los borres) =====
 const turnos = [
-  { codigo: "A-014", nombre: "Luisa Cárdenas",  tramite: "Autorización de examen", modulo: "Módulo 1", atendido: false },
-  { codigo: "A-015", nombre: "Óscar Betancur",  tramite: "Cambio de EPS",          modulo: "Módulo 2", atendido: false },
-  { codigo: "B-003", nombre: "Yeimi Moreno",    tramite: "Certificado laboral",    modulo: "Módulo 3", atendido: false },
+  { codigo: "A-014", nombre: "Luisa Cárdenas", tramite: "Autorización de examen", modulo: "Módulo 1", atendido: false },
+  { codigo: "A-015", nombre: "Óscar Betancur", tramite: "Cambio de EPS", modulo: "Módulo 2", atendido: false },
+  { codigo: "B-003", nombre: "Yeimi Moreno", tramite: "Certificado laboral", modulo: "Módulo 3", atendido: false },
   { codigo: "A-016", nombre: "Camilo Restrepo", tramite: "Autorización de examen", modulo: "Módulo 1", atendido: false },
-  { codigo: "B-004", nombre: "Sandra Ruiz",     tramite: "Afiliación de hijo",     modulo: "Módulo 4", atendido: false },
-  { codigo: "A-017", nombre: "Jhon Quintero",   tramite: "Incapacidad",            modulo: "Módulo 2", atendido: false }
+  { codigo: "B-004", nombre: "Sandra Ruiz", tramite: "Afiliación de hijo", modulo: "Módulo 4", atendido: false },
+  { codigo: "A-017", nombre: "Jhon Quintero", tramite: "Incapacidad", modulo: "Módulo 2", atendido: false }
 ];
 
 // ============================================================
@@ -28,7 +28,15 @@ const turnos = [
 //   buscador · contadorFila · mensajeVacio
 // ============================================================
 
-// Tu código aquí
+const visorNumero = document.getElementById("visorNumero")
+const visorModulo = document.getElementById("visorModulo")
+const mensajeVacio = document.getElementById("mensajeVacio")
+const listaEspera = document.getElementById("listaEspera")
+const btnLlamar = document.getElementById("btnLlamar")
+const buscador = document.getElementById("buscador")
+const contadorFila = document.getElementById("contadorFila")
+
+console.log(`${visorNumero}1${visorModulo}2${mensajeVacio}3${listaEspera}4${btnLlamar}5${buscador}6${contadorFila}7`)
 
 // ============================================================
 // Ejercicio 02 · pintarFila(): del arreglo a la pantalla
@@ -49,7 +57,30 @@ const turnos = [
 //   mensajeVacio.hidden = turnos.length > 0;
 // ============================================================
 
-// Tu código aquí
+function pintarFila() {
+  listaEspera.textContent = "";
+  for (const turno of turnos) {
+    const codigo = document.createElement("span");
+    codigo.className = "turno__codigo";
+    codigo.innerHTML =
+      `<li class="turno">
+      <span class="turno__codigo">${turno.codigo}</span>
+      <div class="turno__datos">
+        <p class="turno__nombre">${turno.nombre}</p>
+        <p class="turno__tramite">${turno.tramite} · ${turno.modulo}</p>
+      </div>
+      <span class="turno__estado">En espera</span>
+    </li>`;
+    if (turno.atendido === true) {
+      codigo.querySelector("li").classList.add("turno--atendido");
+      codigo.querySelector(".turno__estado").textContent = "Atendido"
+    }
+    listaEspera.appendChild(codigo);
+  }
+  actualizarContador();
+  mensajeVacio.hidden = turnos.length > 0;
+}
+
 
 // ============================================================
 // Ejercicio 03 · Llamar al siguiente (evento click)
@@ -62,7 +93,22 @@ const turnos = [
 // Conéctala al botón con addEventListener("click", ...).
 // ============================================================
 
-// Tu código aquí
+function llamarSiguiente() {
+  for (const turno of turnos) {
+    if (turno.atendido === false) {
+      turno.atendido = true
+      visorNumero.textContent = turno.codigo
+      visorModulo.textContent = "Pase al " + turno.modulo
+      pintarFila()
+      return
+    }
+  }
+  visorModulo.textContent = "No hay turnos en espera"
+  visorNumero.textContent = "— — —"
+  pintarFila()
+}
+
+btnLlamar.addEventListener("click", llamarSiguiente);
 
 // ============================================================
 // Ejercicio 04 · Estados con classList
@@ -82,7 +128,13 @@ const turnos = [
 // contador. Llámala al final de pintarFila.
 // ============================================================
 
-// Tu código aquí
+function actualizarContador() {
+  const pendientes = listaEspera.querySelectorAll(
+    "li.turno:not(.turno--atendido)"
+  );
+
+  contadorFila.textContent = pendientes.length;
+}
 
 // ============================================================
 // Ejercicio 06 · Datos escondidos con dataset y el botón Cancelar
@@ -120,7 +172,7 @@ const turnos = [
 // Tu código aquí
 
 // ============================================================
-// Arranque: pinta la fila apenas abre la página
+pintarFila()
 // ============================================================
 
 // Cuando termines el Ejercicio 02, escribe aquí abajo: pintarFila();
