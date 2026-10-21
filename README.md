@@ -1,4 +1,4 @@
-Generation Colombia. Trabajo Individual: Laboratorio de Eventos - Tablero de Turnos / Estudiante: Kendry Y. Vargas G.                                      Link GitHub Pages: 
+Generation Colombia. Trabajo Individual: Laboratorio de Eventos - Tablero de Turnos / Estudiante: Kendry Y. Vargas G.                                      Link GitHub Pages: https://kendryvargasg.github.io/Lab_EventosJS_CH15/tablero/
 
 # 🏥 Lab de eventos · Tablero de turnos
 
