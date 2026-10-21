@@ -109,6 +109,30 @@ pintarFila();
 // ============================================================
 
 // Tu código aquí
+function llamarSiguiente() {
+  let turnoEncontrado = false;
+
+  for (let i = 0; i < turnos.length; i++) {
+    if (turnos[i].atendido === false) {
+      const turno = turnos[i];
+
+      turno.atendido = true;
+
+      visorNumero.textContent = turno.codigo;
+      visorModulo.textContent = "Pase al " + turno.modulo;
+
+      turnoEncontrado = true;
+      break;
+    }
+  }
+  if (turnoEncontrado === false) {
+    visorNumero.textContent = "— — —";
+    visorModulo.textContent = "No hay turnos en espera";
+  }
+  pintarFila()
+}
+
+btnLlamar.addEventListener("click", llamarSiguiente);
 
 // ============================================================
 // Ejercicio 04 · Estados con classList
