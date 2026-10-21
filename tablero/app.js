@@ -90,6 +90,8 @@ function pintarFila() {
 
   mensajeVacio.hidden = turnos.length > 0;
 
+  actualizarContador();
+
 }
 
 // ============================================================
@@ -104,6 +106,7 @@ function pintarFila() {
 // ============================================================
 
 function llamarSiguiente() {
+
   let siguiente = null;
 
   for (let turno of turnos) {
@@ -132,8 +135,6 @@ function llamarSiguiente() {
 
 btnLlamar.addEventListener("click", llamarSiguiente);
 
-
-
 // ============================================================
 // Ejercicio 05 · El contador
 // ============================================================
@@ -142,7 +143,13 @@ btnLlamar.addEventListener("click", llamarSiguiente);
 // contador. Llámala al final de pintarFila.
 // ============================================================
 
-// Tu código aquí
+function actualizarContador() {
+
+  const contadorPdtes = listaEspera.querySelectorAll(".turno:not(.turno--atendido)");
+
+  contadorFila.textContent = contadorPdtes.length;
+
+}
 
 // ============================================================
 // Ejercicio 06 · Datos escondidos con dataset y el botón Cancelar
