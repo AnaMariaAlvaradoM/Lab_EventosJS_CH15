@@ -62,6 +62,9 @@ function pintarFila() {
     const turno = turnos[i]
     const item = document.createElement("li")
     item.className = "turno"
+    item.dataset.codigo = turno.codigo
+    item.dataset.nombre = turno.nombre
+    item.dataset.modulo = turno.modulo
 
     const codigo = document.createElement("span");
     codigo.className = "turno__codigo";
@@ -97,6 +100,13 @@ function pintarFila() {
       estado.textContent = "En espera";
     }
     item.appendChild(estado)
+
+    const botonCancel = document.createElement("button")
+    botonCancel.className = "turno__cancelar"
+    botonCancel.textContent = "Cancelar"
+    botonCancel.dataset.accion = "Cancelar"
+    item.appendChild(botonCancel)
+
 
     listaEspera.appendChild(item)
   }
@@ -184,7 +194,22 @@ function actualizarContador() {
 // repinta. Conéctala a la LISTA (no a cada botón).
 // ============================================================
 
-// Tu código aquí
+function cancelarTurno(evento) {
+  if (evento.target.dataset.accion !== "Cancelar") {
+    return
+  }
+  const item = evento.target.closest(".turno")
+  const codigo = item.dataset.codigo
+  for (let i = 0; i < turnos.length; i++) {
+    if (turnos[i].codigo == codigo) {
+      turnos.splice(i, 1)
+      break
+    }
+  }
+  pintarFila()
+}
+
+listaEspera.addEventListener("click", cancelarTurno)
 
 // ============================================================
 // Ejercicio 08 · Búsqueda en vivo (evento input)
@@ -196,7 +221,9 @@ function actualizarContador() {
 // al final de pintarFila.
 // ============================================================
 
-// Tu código aquí
+function aplicarBusqueda() {
+
+}
 
 // ============================================================
 // Arranque: pinta la fila apenas abre la página
