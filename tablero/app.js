@@ -124,7 +124,9 @@ function pintarFila() {
   actualizarContador()
 }
 
-pintarFila();
+
+
+
 // ============================================================
 // Ejercicio 03 · Llamar al siguiente (evento click)
 // ============================================================
@@ -211,6 +213,19 @@ function actualizarContador() {
 // ============================================================
 
 // Tu código aquí
+function cancelarTurno(evento) {
+  if (evento.target.dataset.accion !== "cancelar") return;
+
+  const item = evento.target.closest(".turno");
+  const codigo = item.dataset.codigo;
+
+  const indice = turnos.findIndex((t) => t.codigo === codigo);
+  if (indice !== -1) turnos.splice(indice, 1)
+
+  pintarFila()
+}
+
+listaEspera.addEventListener("click", cancelarTurno)
 
 // ============================================================
 // Ejercicio 08 · Búsqueda en vivo (evento input)
@@ -223,9 +238,26 @@ function actualizarContador() {
 // ============================================================
 
 // Tu código aquí
+function aplicarBusqueda() {
+  const texto = buscador.value.toLowerCase().trim();
+  const items = listaEspera.querySelectorAll(".turno");
+
+  items.forEach((item) => {
+    const contenido = item.textContent.toLowerCase();
+
+    if (contenido.includes(texto)) {
+      item.classList.remove("turno--oculto");
+    } else {
+      item.classList.add("turno--oculto");
+    }
+  });
+}
+
+buscador.addEventListener("input", aplicarBusqueda);
 
 // ============================================================
 // Arranque: pinta la fila apenas abre la página
 // ============================================================
 
 // Cuando termines el Ejercicio 02, escribe aquí abajo: pintarFila();
+pintarFila();
