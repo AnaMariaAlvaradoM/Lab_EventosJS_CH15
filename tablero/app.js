@@ -60,19 +60,24 @@ function pintarFila() {
 
   for (let i = 0; i < turnos.length; i++) {
     listaEspera.innerHTML += `
-      <li class="turno ${turnos[i].atendido ? 'turno--atendido' : ''}">
+      <li class="turno ${turnos[i].atendido ? 'turno--atendido' : ''}"
+        data-codigo="${turnos[i].codigo}"
+        data-modulo="${turnos[i].modulo}"
+        data-nombre="${turnos[i].nombre}">
         <span class="turno__codigo">${turnos[i].codigo}</span>
         <div class="turno__datos">
           <p class="turno__nombre">${turnos[i].nombre}</p>
           <p class="turno__tramite">${turnos[i].tramite} · ${turnos[i].modulo}</p>
         </div>
         <span class="turno__estado">${turnos[i].atendido ? "Atendido" : "En espera"}</span>
+        <button class="turno__cancelar" data-accion="cancelar">Cancelar</button>
       </li>
     `;
   }
 
   mensajeVacio.hidden = turnos.length > 0;
   actualizarContador();
+  aplicarBusqueda();
 }
 
 pintarFila();
@@ -159,7 +164,26 @@ contadorFila.textContent = pendientes.length;
 // repinta. Conéctala a la LISTA (no a cada botón).
 // ============================================================
 
-// Tu código aquí
+function cancelarTurno(evento){
+const boton = evento.target.closest(".turno__cancelar");
+if (!boton){
+  return
+}
+
+const fila = evento.target.closest(".turno");
+const codigo = fila.dataset.codigo;
+
+for (let i = 0; i < turnos.length; i++){
+  if(turnos[i].codigo === codigo){
+    turnos.splice(i, 1);
+    break
+  }
+}
+
+pintarFila();
+}
+
+listaEspera.addEventListener("click", cancelarTurno);
 
 // ============================================================
 // Ejercicio 08 · Búsqueda en vivo (evento input)
@@ -171,10 +195,25 @@ contadorFila.textContent = pendientes.length;
 // al final de pintarFila.
 // ============================================================
 
-// Tu código aquí
+function aplicarBusqueda(){
+  const texto = buscador.value.toLowerCase();
 
+  for(let i = 0;i < turnos.length; i++){
+    const fila = listaEspera.children[i];
+    const codigo = turnos[i].codigo.toLowerCase();
+    const nombre = turnos[i].nombre.toLowerCase();
+
+    if(codigo.includes(texto) || nombre.includes(texto)){
+      fila.classList.remove("turno--oculto");
+    }else {
+      fila.classList.add("turno--oculto");
+    }
+  } 
+}
+buscador.addEventListener("input", aplicarBusqueda);
 // ============================================================
 // Arranque: pinta la fila apenas abre la página
 // ============================================================
 
 // Cuando termines el Ejercicio 02, escribe aquí abajo: pintarFila();
+
