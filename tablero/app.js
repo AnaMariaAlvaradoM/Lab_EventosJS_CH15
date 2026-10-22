@@ -68,6 +68,10 @@ function pintarFila() {
         const item = document.createElement("li");
         item.className = "turno";
 
+        item.dataset.codigo = turno.codigo;
+        item.dataset.modulo = turno.modulo;
+        item.dataset.nombre = turno.nombre;
+
         const codigo = document.createElement("span");
         codigo.className = "turno__codigo";
         codigo.textContent = turno.codigo;
@@ -100,11 +104,27 @@ function pintarFila() {
     }
 
       item.appendChild(estado);
+      const botonCancelar = document.createElement("button");
+      botonCancelar.className = "turno__cancelar";
+      botonCancelar.textContent = "Cancelar";
+      botonCancelar.dataset.accion = "cancelar";
+
+      item.appendChild(botonCancelar);
       listaEspera.appendChild(item);
  
     }
 
     mensajeVacio.hidden = turnos.length > 0;
+
+    actualizarContador();
+}
+
+    function actualizarContador() {
+    const pendientes = listaEspera.querySelectorAll(
+        ".turno:not(.turno--atendido)"
+    );
+
+    contadorFila.textContent = pendientes.length;
 }
 
    
