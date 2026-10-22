@@ -104,7 +104,7 @@ function pintarFila() {
     const botonCancel = document.createElement("button")
     botonCancel.className = "turno__cancelar"
     botonCancel.textContent = "Cancelar"
-    botonCancel.dataset.accion = "Cancelar"
+    botonCancel.dataset.accion = "cancelar"
     item.appendChild(botonCancel)
 
 
@@ -113,9 +113,10 @@ function pintarFila() {
 
   mensajeVacio.hidden = turnos.length > 0;
   actualizarContador()
+  aplicarBusqueda()
 }
 
-pintarFila()
+// pintarFila()
 
 // ============================================================
 // Ejercicio 03 · Llamar al siguiente (evento click)
@@ -195,7 +196,7 @@ function actualizarContador() {
 // ============================================================
 
 function cancelarTurno(evento) {
-  if (evento.target.dataset.accion !== "Cancelar") {
+  if (evento.target.dataset.accion !== "cancelar") {
     return
   }
   const item = evento.target.closest(".turno")
@@ -222,11 +223,25 @@ listaEspera.addEventListener("click", cancelarTurno)
 // ============================================================
 
 function aplicarBusqueda() {
+  let ingreso = buscador.value.toLowerCase();
+  const listas = document.querySelectorAll(".turno")
+
+  listas.forEach((lista) => {
+    const contenido = (lista.dataset.codigo + " " + lista.dataset.nombre).toLowerCase();
+    if (contenido.includes(ingreso)) {
+      lista.classList.remove("turno--oculto");
+    } else {
+      lista.classList.add("turno--oculto")
+    }
+  })
 
 }
+
+buscador.addEventListener("input", aplicarBusqueda)
 
 // ============================================================
 // Arranque: pinta la fila apenas abre la página
 // ============================================================
 
 // Cuando termines el Ejercicio 02, escribe aquí abajo: pintarFila();
+pintarFila()
