@@ -77,21 +77,27 @@ function pintarFila() {
     // ============================================================
 
     listaEspera.innerHTML += `
-        <li class="turno ${claseAtendido}">
+        <li class="turno ${claseAtendido}"
+        data-codigo="${turno.codigo}" data-modulo="${turno.modulo}" data-nombre="${turno.nombre}"> 
           <span class="turno__codigo">${turno.codigo}</span>
           <div class="turno__datos">
           <p class="turno__nombre">${turno.nombre}</p>
           <p class="turno__tramite">${turno.tramite} · ${turno.modulo}</p>
           </div>
           <span class="turno__estado">${estado}</span>
+
+          <button class="turno__cancelar" data-accion="cancelar" type="button">Cancelar</button>
         </li>
       `;
+
   }
 
   mensajeVacio.hidden = turnos.length > 0;
 
   actualizarContador();
 
+  aplicarBusqueda();
+  
 }
 
 // ============================================================
@@ -152,18 +158,6 @@ function actualizarContador() {
 }
 
 // ============================================================
-// Ejercicio 06 · Datos escondidos con dataset y el botón Cancelar
-// ============================================================
-// Dentro de pintarFila:
-//   - guarda en cada <li> el código, el módulo y el nombre del
-//     turno con dataset (data-codigo, data-modulo, data-nombre);
-//   - crea un <button class="turno__cancelar">Cancelar</button>
-//     con dataset.accion = "cancelar" y agrégalo al <li>.
-// ============================================================
-
-// (Este ejercicio se resuelve dentro de pintarFila, arriba)
-
-// ============================================================
 // Ejercicio 07 · Cancelar con UN solo escuchador (delegación)
 // ============================================================
 // cancelarTurno(evento): si el clic NO fue en un botón de cancelar,
@@ -172,7 +166,25 @@ function actualizarContador() {
 // repinta. Conéctala a la LISTA (no a cada botón).
 // ============================================================
 
-// Tu código aquí
+function cancelarTurno(e) {
+  
+  if (e.target.dataset.accion !== "cancelar" ) {
+    return;
+  }
+
+  const item = e.target.closest(".turno");
+  const codigo = item.dataset.codigo;
+
+  const i = turnos.findIndex(function(turno) {
+    return turno.codigo === codigo;
+  });
+
+  turnos.splice(i,1);
+
+  pintarFila();
+}
+
+listaEspera.addEventListener("click", cancelarTurno);
 
 // ============================================================
 // Ejercicio 08 · Búsqueda en vivo (evento input)
@@ -184,7 +196,25 @@ function actualizarContador() {
 // al final de pintarFila.
 // ============================================================
 
-// Tu código aquí
+function aplicarBusqueda() {
+  
+  const texto = buscador.value.toLowerCase();
+  const items = listaEspera.querySelectorAll(".turno");
+
+  for(let item of items) {
+    
+    const codigo = item.dataset.codigo.toLowerCase();
+    const nombre = item.dataset.nombre.toLowerCase();
+
+    if (codigo.includes(texto) || nombre.includes(texto)) {
+      item.classList.remove("turno--oculto");
+    } else {
+      item.classList.add("turno--oculto");
+    }
+  }
+}
+
+buscador.addEventListener("input", aplicarBusqueda);
 
 // ============================================================
 // Arranque: pinta la fila apenas abre la página
