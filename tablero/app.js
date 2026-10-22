@@ -83,17 +83,25 @@ function pintarFila() {
 
         const tramite = document.createElement("p");
         tramite.className = "turno__tramite";
-        tramite.textContent = turno.tramite;
+        tramite.textContent = turno.tramite + " · " + turno.modulo;
         datos.appendChild(tramite);
 
         item.appendChild(datos);
 
-        const estado = document.createElement("span");
-        estado.className = "turno__estado";
-        estado.textContent = "En espera";
-        item.appendChild(estado);
+        
+    const estado = document.createElement("span");
+    estado.className = "turno__estado";
 
-        listaEspera.appendChild(item);
+    if (turno.atendido === true) {
+    item.classList.add("turno--atendido");
+    estado.textContent = "Atendido";
+     } else {
+    estado.textContent = "En espera";
+    }
+
+      item.appendChild(estado);
+      listaEspera.appendChild(item);
+ 
     }
 
     mensajeVacio.hidden = turnos.length > 0;
@@ -115,6 +123,34 @@ function pintarFila() {
 // ============================================================
 
 // Tu código aquí
+
+     
+function llamarSiguiente() {
+    let siguiente = null;
+
+    for (let i = 0; i < turnos.length; i++) {
+        if (turnos[i].atendido === false) {
+            siguiente = turnos[i];
+            break;
+        }
+    }
+
+    if (siguiente === null) {
+        visorNumero.textContent = "— — —";
+        visorModulo.textContent = "No hay turnos en espera";
+        return;
+    }
+
+    siguiente.atendido = true;
+    visorNumero.textContent = siguiente.codigo;
+    visorModulo.textContent = "Pase al " + siguiente.modulo;
+
+    pintarFila();
+}
+
+btnLlamar.addEventListener("click", llamarSiguiente);
+
+
 
 // ============================================================
 // Ejercicio 04 · Estados con classList
