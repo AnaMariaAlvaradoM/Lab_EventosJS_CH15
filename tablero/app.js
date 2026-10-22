@@ -108,6 +108,7 @@ function pintarFila() {
   }
   mensajeVacio.hidden = turnos.length > 0;
   actualizarContador();
+  aplicarBusqueda();
 }
 
 // ============================================================
@@ -184,7 +185,25 @@ function actualizarContador() {
 // repinta. Conéctala a la LISTA (no a cada botón).
 // ============================================================
 
-// Tu código aquí
+function cancelarTurno(evento){
+  if(evento.target.dataset.accion !== "cancelar"){
+    return;
+  }
+  const item = evento.target.closest(".turno");
+  const cancelado = item.dataset.codigo;
+  let posicion = -1;
+  for(let i = 0; turnos.length > i; i++){
+    if(turnos[i].codigo === cancelado){
+      posicion = i;
+      break;
+    }
+  }
+  if(posicion !== -1){
+    turnos.splice(posicion, 1);
+  }
+  pintarFila();
+}
+listaEspera.addEventListener("click", cancelarTurno);
 
 // ============================================================
 // Ejercicio 08 · Búsqueda en vivo (evento input)
@@ -196,7 +215,17 @@ function actualizarContador() {
 // al final de pintarFila.
 // ============================================================
 
-// Tu código aquí
+function aplicarBusqueda(){
+  const mensajeInput = buscador.value.toLowerCase();
+  const todosTurnos = document.querySelectorAll(".turno");
+  for(let i = 0; todosTurnos.length > i; i++){
+    const item = todosTurnos[i];
+    const contenido = (item.dataset.codigo + " " + item.dataset.nombre).toLowerCase();
+    const coincide = contenido.includes (mensajeInput);
+    item.classList.toggle("turno--oculto", !coincide);
+  }
+}
+buscador.addEventListener("input", aplicarBusqueda);
 
 // ============================================================
 // Arranque: pinta la fila apenas abre la página
