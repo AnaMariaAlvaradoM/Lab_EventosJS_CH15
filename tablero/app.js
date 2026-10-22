@@ -60,18 +60,19 @@ function pintarFila() {
 
   for (let i = 0; i < turnos.length; i++) {
     listaEspera.innerHTML += `
-      <li class="turno">
+      <li class="turno ${turnos[i].atendido ? 'turno--atendido' : ''}">
         <span class="turno__codigo">${turnos[i].codigo}</span>
         <div class="turno__datos">
           <p class="turno__nombre">${turnos[i].nombre}</p>
           <p class="turno__tramite">${turnos[i].tramite} · ${turnos[i].modulo}</p>
         </div>
-        <span class="turno__estado">${turnos[i].estado || "En espera"}</span>
+        <span class="turno__estado">${turnos[i].atendido ? "Atendido" : "En espera"}</span>
       </li>
     `;
   }
 
   mensajeVacio.hidden = turnos.length > 0;
+  actualizarContador();
 }
 
 pintarFila();
@@ -89,7 +90,7 @@ pintarFila();
 // ============================================================
 
 function llamarSiguiente(){
-  let primerT = false
+  let primerTurno = false
 
   for (let i = 0; i < turnos.length; i++){
     if (turnos[i].atendido === false) {
@@ -98,13 +99,13 @@ function llamarSiguiente(){
       visorNumero.textContent = turnos[i].codigo;
       visorModulo.textContent = "Pase al " + turnos[i].modulo;
 
-      primerT = true;
+      primerTurno = true;
       break;
     }
   }
 
 
-  if (primerT === false) {
+  if (primerTurno === false) {
     visorNumero.textContent = "— — —";
     visorModulo.textContent = "No hay turnos en espera";
   }
@@ -132,7 +133,10 @@ btnLlamar.addEventListener("click", llamarSiguiente);
 // contador. Llámala al final de pintarFila.
 // ============================================================
 
-// Tu código aquí
+function actualizarContador(){
+const pendientes = listaEspera.querySelectorAll("li.turno:not(.turno--atendido)");
+contadorFila.textContent = pendientes.length;
+}
 
 // ============================================================
 // Ejercicio 06 · Datos escondidos con dataset y el botón Cancelar
