@@ -66,6 +66,10 @@ function pintarFila() {
     const item = document.createElement("li");
     item.className = "turno";
     
+    if (turno.atendido === true) {
+      item.classList.add("turno--atendido");
+    }
+    
     const codigo = document.createElement("span");
     codigo.className = "turno__codigo";
     codigo.textContent = turno.codigo;
@@ -87,7 +91,12 @@ function pintarFila() {
 
     const estado = document.createElement("span");
     estado.className = "turno__estado";
-    estado.textContent = "En espera";
+
+    if (turno.atendido === true) {
+      estado.textContent = "Atendido";
+    } else {
+      estado.textContent = "En espera";
+    }
     item.appendChild(estado);
     listaEspera.appendChild(item);
   }
