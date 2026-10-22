@@ -95,10 +95,25 @@ function pintarFila() {
       estado.textContent = "En espera";
     }
 
+    const button = document.createElement("button");
+    button.className = "turno__cancelar";
+    button.textContent = "Cancelar";
+    button.dataset.accion = "cancelar"
+    item.appendChild(button);
+
     listaEspera.appendChild(item);
+
+    item.dataset.codigo = turno.codigo;
+    item.dataset.modulo = turno.modulo;
+    item.dataset.nombre = turno.nombre;
   }
 
   mensajeVacio.hidden = turnos.length > 0;
+
+  actualizarContador();
+
+  aplicarBusqueda();
+
 }
 
 // ============================================================
@@ -155,7 +170,10 @@ btnLlamar.addEventListener("click", llamarSiguiente);
 // contador. Llámala al final de pintarFila.
 // ============================================================
 
-// Tu código aquí
+function actualizarContador() {
+  const contador = document.querySelectorAll(".turno:not(.turno--atendido)");
+  contadorFila.textContent = contador.length;
+}
 
 // ============================================================
 // Ejercicio 06 · Datos escondidos con dataset y el botón Cancelar
@@ -178,7 +196,25 @@ btnLlamar.addEventListener("click", llamarSiguiente);
 // repinta. Conéctala a la LISTA (no a cada botón).
 // ============================================================
 
-// Tu código aquí
+function cancelarTurno(evento) {
+  if (evento.target.dataset.accion !== "cancelar") {
+    return;
+  }
+  else {
+    const item = evento.target.closest(".turno");
+    const codigoBuscado = item.dataset.codigo;
+    for (let i = 0; i < turnos.length; i++) {
+      if (turnos[i].codigo === codigoBuscado) {
+        turnos.splice(i, 1);
+        break;
+      }
+    }
+  }  
+  pintarFila();
+}
+
+listaEspera.addEventListener("click", cancelarTurno);
+
 
 // ============================================================
 // Ejercicio 08 · Búsqueda en vivo (evento input)
@@ -190,7 +226,22 @@ btnLlamar.addEventListener("click", llamarSiguiente);
 // al final de pintarFila.
 // ============================================================
 
-// Tu código aquí
+function aplicarBusqueda() {
+  const busqueda = buscador.value.toLowerCase();
+  const items = listaEspera.querySelectorAll(".turno");
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    const contenido = (item.dataset.codigo + item.dataset.modulo + item.dataset.nombre).toLowerCase();
+
+    if (contenido.includes(busqueda)) {
+      item.classList.remove("turno--oculto");
+    } else {
+      item.classList.add("turno--oculto");
+    }
+  }
+}
+    
+buscador.addEventListener("input", aplicarBusqueda);
 
 // ============================================================
 // Arranque: pinta la fila apenas abre la página
