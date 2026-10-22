@@ -103,9 +103,8 @@ for(let turno of turnos){
   mensajeVacio.hidden = turnos.length > 0;
   listaEspera.appendChild(fragment);
   actualizarContador();
+  aplicarBusqueda();
 }
-
-pintarFila();
 
 // ============================================================
 // Ejercicio 03 · Llamar al siguiente (evento click)
@@ -135,7 +134,7 @@ function llamarSiguiente(){
 
   if(!atendioAlguien){
     visorNumero.textContent = "— — —";
-    visorModulo.textContent = "No hay turnos en espera.";
+    visorModulo.textContent = "No hay turnos en espera";
   }
 
 }
@@ -183,7 +182,31 @@ function actualizarContador(){
 // repinta. Conéctala a la LISTA (no a cada botón).
 // ============================================================
 
-const btnCancelar = document.querySelector("");
+function cancelarTurno(e){
+  const btnCancelar = e.target.closest(".turno__cancelar");
+  if(!btnCancelar){
+    return;
+  }
+
+  const li = btnCancelar.closest(".turno");
+
+  if(!li){
+    return;
+  }
+
+  const codigo = li.dataset.codigo;
+
+  for(let i = 0; i < turnos.length; i++){
+    if(turnos[i].codigo == codigo){
+      turnos.splice(i,1);
+      break;
+    }
+  }
+  
+  pintarFila();
+}
+
+listaEspera.addEventListener("click", cancelarTurno);
 
 // ============================================================
 // Ejercicio 08 · Búsqueda en vivo (evento input)
@@ -195,10 +218,29 @@ const btnCancelar = document.querySelector("");
 // al final de pintarFila.
 // ============================================================
 
-// Tu código aquí
+function aplicarBusqueda(){
+  const texto = buscador.value.toLowerCase();
+  const todosLosLi = document.querySelectorAll("li"); 
+  
+  for(let li of todosLosLi){
+
+    li.classList.remove("turno--oculto");
+
+    const nombre = li.dataset.nombre.toLowerCase();
+    const codigo = li.dataset.codigo.toLowerCase();
+
+    if(texto == "" || nombre.includes(texto) || codigo.includes(texto)){
+      continue; //por fin le encontré un uso relevante a esto :)
+    }
+    li.classList.add("turno--oculto");
+  }
+}
+
+buscador.addEventListener("input", aplicarBusqueda);
 
 // ============================================================
 // Arranque: pinta la fila apenas abre la página
 // ============================================================
 
 // Cuando termines el Ejercicio 02, escribe aquí abajo: pintarFila();
+pintarFila();
