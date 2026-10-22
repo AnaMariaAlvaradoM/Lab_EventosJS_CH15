@@ -102,6 +102,7 @@ function pintarFila() {
   }
 
   mensajeVacio.hidden = turnos.length > 0;
+  actualizarContador();
 }
 
 pintarFila();
@@ -162,6 +163,10 @@ btnLlamar.addEventListener("click", llamarSiguiente);
 // ============================================================
 
 // Tu código aquí
+function actualizarContador() {
+  const pendientes = listaEspera.querySelectorAll("li.turno:not(.turno--atendido)");
+  contadorFila.textContent = pendientes.length;
+}
 
 // ============================================================
 // Ejercicio 06 · Datos escondidos con dataset y el botón Cancelar
