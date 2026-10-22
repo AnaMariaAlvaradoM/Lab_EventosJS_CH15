@@ -115,6 +115,7 @@ function pintarFila() {
 
   mensajeVacio.hidden = turnos.length > 0;
   actualizarContador();
+  aplicarBusqueda();
 }
 
 pintarFila();
@@ -237,8 +238,27 @@ listaEspera.addEventListener("click", cancelarTurno);
 
 // Tu código aquí
 
+function aplicarBusqueda() {
+  const texto = buscador.value.toLocaleLowerCase();
+  const filas = listaEspera.querySelectorAll(".turno");
+
+  for (let i = 0; i < filas.length; i++) {
+    const codigo = filas[i].dataset.codigo.toLocaleLowerCase();
+    const nombre = filas[i].dataset.nombre.toLocaleLowerCase();
+
+    if (codigo.includes(texto) || nombre.includes(texto)) {
+      filas[i].classList.remove("turno--oculto");
+    } else {
+      filas[i].classList.add("turno--oculto");
+    }
+  }
+}
+
+buscador.addEventListener("input", aplicarBusqueda);
+
 // ============================================================
 // Arranque: pinta la fila apenas abre la página
 // ============================================================
 
 // Cuando termines el Ejercicio 02, escribe aquí abajo: pintarFila();
+pintarFila()
